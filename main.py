@@ -29,7 +29,7 @@ from telegram.ext import (
 # ─────────────────────────────────────────────────────────────
 #  SOZLAMALAR  ← faqat BOT_TOKEN ni o'zgartiring
 # ─────────────────────────────────────────────────────────────
-BOT_TOKEN      = ""   # @BotFather dan olingan token
+BOT_TOKEN      = "8536529672:AAGTgi5iAU9EGNQzhA8srM-CEEqlKLJ726E"   # @BotFather dan olingan token
 ADMIN_USERNAME = "@Padiwakh_1"
 ADMIN_PHONE    = "+998 91 167 29 20"
 ADMIN_EMAIL    = "saidmaxmudovrahmonsaid@gmail.com"
