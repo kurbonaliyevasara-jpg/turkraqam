@@ -424,15 +424,18 @@ CONTACT_TEXT = f"""📞 <b>Admin bilan bog'lanish</b>
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     welcome = (
-        f"Salom, <b>{user.first_name}</b>! 👋\n\n"
-        "🏦 <b>MUOMILA</b> botiga xush kelibsiz!\n\n"
-        "Pastdagi klaviaturadan bo'lim tanlang 👇\n\n"
-        "🌐 <b>Ilova</b> — Telegramda Mini App ochadi\n"
-        "ℹ️ <b>Biz haqimizda</b> — Ilova haqida ma'lumot\n"
-        "💳 <b>Obuna</b> — Narxlar va sotib olish\n"
-        "📖 <b>Qo'llanma</b> — Ilovani ishlatish\n"
-        "🆘 <b>Yordam</b> — FAQ va admin"
-    )
+    f"🎉 Assalomu alekum, <b>{user.first_name}</b>! 👋\n\n"
+    "Siz endi <b>MUOMILA</b> olamiga qadam qo'ydingiz — bu yerda qarzlar nazorat ostida, "
+    "va hammasi isbot bilan!\n\n"
+    "✨ Nimalar qilishingiz mumkin:\n"
+    "🌐 <b>Ilova</b> — Mini App orqali qarzlaringizni boshqaring\n"
+    "ℹ️ <b>Biz haqimizda</b> — botimiz sirlarini oching\n"
+    "💳 <b>Obuna</b> — premium imkoniyatlarni qo‘lga kiriting\n"
+    "📖 <b>Qo'llanma</b> — 1 daqiqada master bo‘ling\n"
+    "🆘 <b>Yordam</b> — hech qachon yolg‘iz qolmaysiz\n\n"
+    "🚀 Tayyor? Boshlaymiz! Pastdagi tugmalardan birini tanlang va "
+    "<b>MUOMILA</b> bilan qulay qarz boshqaruvini his eting!"
+)
     await update.message.reply_text(
         welcome,
         reply_markup=main_reply_kb(),
