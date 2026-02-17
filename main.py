@@ -635,6 +635,6 @@ def main():
         drop_pending_updates=True,   # eski xabarlarni o'tkazib yuboradi
     )
 
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
+
