@@ -7,8 +7,10 @@ MUOMILA Telegram Bot
 - Async + polling      → bir vaqtda 1000+ foydalanuvchi ishlata oladi
 - python-telegram-bot  v20+
 """
-
+from telegram.ext import ApplicationBuilder
+import asyncio
 import logging
+
 from telegram import (
     Update,
     ReplyKeyboardMarkup,
@@ -635,4 +637,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
