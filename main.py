@@ -35,7 +35,7 @@ BOT_TOKEN      = "8536529672:AAGTgi5iAU9EGNQzhA8srM-CEEqlKLJ726E"   # @BotFather
 ADMIN_USERNAME = "@Padiwakh_1"
 ADMIN_PHONE    = "+998 91 167 29 20"
 ADMIN_EMAIL    = "saidmaxmudovrahmonsaid@gmail.com"
-APP_URL        = "https://muomila.onrender.com/login.html#debtors"
+APP_URL        = "https://nmabovoto.onrender.com/login.html"
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
@@ -57,7 +57,7 @@ def main_reply_kb():
     """
     return ReplyKeyboardMarkup(
         [
-            # 1-qator: WebApp tugmasi — klaviaturaning chap tepasida
+            # 1-qator: WebApp tugmasi — klaviaturaning birinchi tugmasi (chap tep)
             [KeyboardButton("🌐  Ilova", web_app=WebAppInfo(url=APP_URL))],
             # 2-qator
             [
@@ -615,6 +615,11 @@ def main():
     - concurrent_updates=True  → bir vaqtda 1000+ foydalanuvchi
     - run_polling               → uzluksiz ishlaydi
     """
+    # Python 3.10+ da asyncio.get_event_loop() avtomatik loop yaratmaydi.
+    # Python 3.14 da bu xato sifatida ko'tariladi.
+    # Shuning uchun run_polling() dan oldin yangi event loop yaratamiz.
+    asyncio.set_event_loop(asyncio.new_event_loop())
+
     app = (
         Application.builder()
         .token(BOT_TOKEN)
@@ -637,4 +642,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
