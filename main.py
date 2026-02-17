@@ -7,7 +7,6 @@ MUOMILA Telegram Bot
 - Async + polling      → bir vaqtda 1000+ foydalanuvchi ishlata oladi
 - python-telegram-bot  v20+
 """
-from telegram.ext import ApplicationBuilder
 import asyncio
 import logging
 
@@ -35,7 +34,7 @@ BOT_TOKEN      = "8536529672:AAGTgi5iAU9EGNQzhA8srM-CEEqlKLJ726E"   # @BotFather
 ADMIN_USERNAME = "@Padiwakh_1"
 ADMIN_PHONE    = "+998 91 167 29 20"
 ADMIN_EMAIL    = "saidmaxmudovrahmonsaid@gmail.com"
-APP_URL        = "https://nmabovoto.onrender.com/login.html"
+APP_URL        = "https://muomila.onrender.com/login.html#debtors"
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
@@ -423,10 +422,6 @@ CONTACT_TEXT = f"""📞 <b>Admin bilan bog'lanish</b>
 # ═════════════════════════════════════════════════════════════
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    /start — ReplyKeyboard yuboradi.
-    WebApp tugmasi klaviaturaning birinchi tugmasi (chap tep).
-    """
     user = update.effective_user
     welcome = (
         f"Salom, <b>{user.first_name}</b>! 👋\n\n"
@@ -480,7 +475,6 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     else:
-        # Noma'lum xabar — klaviaturani qayta ko'rsatish
         await update.message.reply_text(
             "👇 Pastdagi tugmalardan birini tanlang:",
             reply_markup=main_reply_kb(),
@@ -606,20 +600,17 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # ═════════════════════════════════════════════════════════════
-#  ISHGA TUSHIRISH
+#  ASOSIY ASYNC FUNKSIYA
+#  run_polling() → async with app + await start_polling()
+#  Python 3.14 da asyncio.run() orqali chaqiriladi
 # ═════════════════════════════════════════════════════════════
 
-def main():
+async def main():
     """
-    ApplicationBuilder:
-    - concurrent_updates=True  → bir vaqtda 1000+ foydalanuvchi
-    - run_polling               → uzluksiz ishlaydi
+    Python 3.14 da run_polling() ichidagi asyncio.get_event_loop() xato beradi.
+    Yechim: to'liq async yondashuv — asyncio.run(main()) orqali ishga tushiriladi.
+    concurrent_updates=True → bir vaqtda 1000+ foydalanuvchi.
     """
-    # Python 3.10+ da asyncio.get_event_loop() avtomatik loop yaratmaydi.
-    # Python 3.14 da bu xato sifatida ko'tariladi.
-    # Shuning uchun run_polling() dan oldin yangi event loop yaratamiz.
-    asyncio.set_event_loop(asyncio.new_event_loop())
-
     app = (
         Application.builder()
         .token(BOT_TOKEN)
@@ -627,7 +618,6 @@ def main():
         .build()
     )
 
-    # Handlerlar
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(callback_handler))
     app.add_handler(
@@ -635,10 +625,24 @@ def main():
     )
 
     logger.info("✅ MUOMILA bot ishga tushdi | concurrent_updates=True")
-    app.run_polling(
-        allowed_updates=Update.ALL_TYPES,
-        drop_pending_updates=True,   # eski xabarlarni o'tkazib yuboradi
-    )
+
+    async with app:
+        await app.start()
+        await app.updater.start_polling(
+            allowed_updates=Update.ALL_TYPES,
+            drop_pending_updates=True,   # eski xabarlarni o'tkazib yuboradi
+        )
+        # Bot to'xtatilgunga qadar ishlaydi (Ctrl+C yoki SIGTERM)
+        await asyncio.Event().wait()
+        await app.updater.stop()
+        await app.stop()
+
+
+# ═════════════════════════════════════════════════════════════
+#  ISHGA TUSHIRISH
+# ═════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
-    main()
+    # asyncio.run() o'zi yangi event loop yaratadi —
+    # Python 3.10+ va Python 3.14 da ham muammosiz ishlaydi.
+    asyncio.run(main())
